@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculate Fees | Next Level Gaming &amp; Esports Arena</title>
+  <link rel="stylesheet" href="styles.css">
+<base target="_blank">
+</head>
+<body>
+<header>
+  <div class="logo">NEXT LEVEL<span>GAMING &amp; ESPORTS ARENA</span></div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="packages.html">Packages</a></li>
+      <li><a href="fees.html" class="active">Fees</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+  <a href="fees.html" class="btn">Book Now</a>
+</header>
+
+<section class="section">
+  <h2>Calculate Your Total Fees</h2>
+
+  <div class="grid" style="grid-template-columns:1fr 1fr">
+    <div>
+      <h3>PRICE LIST</h3>
+      <table>
+        <tr><th>Offering</th><th>Fee</th></tr>
+        <tr><td>Ultimate Gamer Pass</td><td>R1500</td></tr>
+        <tr><td>VIP Gaming Experience</td><td>R1500</td></tr>
+        <tr><td>Esports Training Package</td><td>R1500</td></tr>
+        <tr><td>Birthday Party Package</td><td>R1500</td></tr>
+        <tr><td>Virtual Reality Experience</td><td>R750</td></tr>
+        <tr><td>Racing Simulator Challenge</td><td>R750</td></tr>
+        <tr><td>Escape Room Challenge</td><td>R750</td></tr>
+      </table>
+
+      <div class="discount-box">
+        <h3>GROUP DISCOUNTS</h3>
+        <p style="color:var(--grey)">1 booking — no discount</p>
+        <p style="color:var(--grey)">2 bookings — 5% off</p>
+        <p style="color:var(--grey)">3 bookings — 10% off</p>
+        <p style="color:var(--grey)">More than 3 bookings — 15% off</p>
+      </div>
+
+      <div class="note">
+        <p>15% VAT is added to the discounted total. This is a <strong>quoted fee, not an invoice</strong> — a consultant will contact you to confirm your booking.</p>
+      </div>
+    </div>
+
+    <div>
+      <form id="feesForm" onsubmit="return false;">
+        <h3>YOUR DETAILS</h3>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name">
+        <p class="error" id="nameError">Please enter your full name.</p>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone">
+        <p class="error" id="phoneError">Please enter a valid phone number (digits only).</p>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email">
+        <p class="error" id="emailError">Please enter a valid email address.</p>
+
+        <label for="address">Physical Address</label>
+        <input type="text" id="address" name="address">
+        <p class="error" id="addressError">Please enter your physical address.</p>
+
+        <h3 style="margin-top:20px">SELECT YOUR BOOKINGS</h3>
+        <div class="checkbox-row">
+          <input type="checkbox" id="p1" value="1500" onchange="updateCount()">
+          <label for="p1" style="margin:0;color:var(--white)">Ultimate Gamer Pass — R1500</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="p2" value="1500" onchange="updateCount()">
+          <label for="p2" style="margin:0;color:var(--white)">VIP Gaming Experience — R1500</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="p3" value="1500" onchange="updateCount()">
+          <label for="p3" style="margin:0;color:var(--white)">Esports Training Package — R1500</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="p4" value="1500" onchange="updateCount()">
+          <label for="p4" style="margin:0;color:var(--white)">Birthday Party Package — R1500</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="e1" value="750" onchange="updateCount()">
+          <label for="e1" style="margin:0;color:var(--white)">Virtual Reality Experience — R750</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="e2" value="750" onchange="updateCount()">
+          <label for="e2" style="margin:0;color:var(--white)">Racing Simulator Challenge — R750</label>
+        </div>
+        <div class="checkbox-row">
+          <input type="checkbox" id="e3" value="750" onchange="updateCount()">
+          <label for="e3" style="margin:0;color:var(--white)">Escape Room Challenge — R750</label>
+        </div>
+
+        <p style="color:var(--cyan);margin-top:10px">Bookings selected: <span id="bookingCount">0</span></p>
+
+        <button class="btn" style="margin-top:15px;width:100%" onclick="calculateTotal()">Calculate Total</button>
+
+        <div class="total-box">
+          Total (incl. VAT): <span id="totalDisplay">R0.00</span>
+        </div>
+        <p id="breakdown" style="color:var(--grey);font-size:14px;margin-top:8px"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="logo">NEXT LEVEL<span>GAMING &amp; ESPORTS ARENA</span></div>
+    <p>Johannesburg's home for competitive gaming.</p>
+  </div>
+  <div>
+    <p class="social">Instagram | TikTok | X | Discord</p>
+    <p>© 2026 Next Level Gaming &amp; Esports Arena</p>
+  </div>
+</footer>
+
+<script>
+function updateCount() {
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  let count = 0;
+  checkboxes.forEach(cb => { if (cb.checked) count++; });
+  document.getElementById('bookingCount').textContent = count;
+}
+
+function calculateTotal() {
+  // --- validation / error handling ---
+  let valid = true;
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+
+  document.getElementById('nameError').style.display = name ? 'none' : 'block';
+  if (!name) valid = false;
+
+  const phoneValid = /^[0-9+\s-]{7,15}$/.test(phone);
+  document.getElementById('phoneError').style.display = phoneValid ? 'none' : 'block';
+  if (!phoneValid) valid = false;
+
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  document.getElementById('emailError').style.display = emailValid ? 'none' : 'block';
+  if (!emailValid) valid = false;
+
+  document.getElementById('addressError').style.display = address ? 'none' : 'block';
+  if (!address) valid = false;
+
+  if (!valid) return;
+
+  // --- sum selected items ---
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  let subtotal = 0;
+  let count = 0;
+  checkboxes.forEach(cb => {
+    if (cb.checked) {
+      subtotal += parseFloat(cb.value);
+      count++;
+    }
+  });
+
+  if (count === 0) {
+    alert('Please select at least one booking.');
+    return;
+  }
+
+  // --- group discount ---
+  let discountRate = 0;
+  if (count === 2) discountRate = 0.05;
+  else if (count === 3) discountRate = 0.10;
+  else if (count > 3) discountRate = 0.15;
+
+  const discountAmount = subtotal * discountRate;
+  const afterDiscount = subtotal - discountAmount;
+
+  // --- VAT 15% on discounted total ---
+  const vatAmount = afterDiscount * 0.15;
+  const total = afterDiscount + vatAmount;
+
+  // --- display ---
+  document.getElementById('totalDisplay').textContent = 'R' + total.toFixed(2);
+  document.getElementById('breakdown').textContent =
+    'Subtotal: R' + subtotal.toFixed(2) +
+    ' | Discount (' + Math.round(discountRate * 100) + '%): -R' + discountAmount.toFixed(2) +
+    ' | VAT (15%): +R' + vatAmount.toFixed(2);
+}
+</script>
+</body>
+</html>
